@@ -15,7 +15,6 @@ Discord.startBot({
             if (!tweets || tweets.length === 0) return
 
             message.reply(buildMessage(message, tweets))
-            message.delete()
         },
     },
 })
@@ -26,23 +25,20 @@ function buildMessage(messages: any, tweets: (TweetData | null)[]): string {
     tweets.forEach(tweet => {
         if (!tweet) return
 
-        let tweetUser = `**@${tweet.userData.screen_name}**`
-        let fullText: string = tweet.full_text
+        // let fullText: string = tweet.full_text
         let subRes: string = ''
 
         tweet.mediasData.forEach(media => {
             if (!media) return
 
-            fullText = fullText.replace(media.twitter_url, '')
+            // fullText = fullText.replace(media.twitter_url, '')
             subRes += `${media.mp4_url}\n`
         })
 
-        subRes =tweetUser + '\n' + fullText + '\n' + subRes
+        // subRes = fullText + '\n' + subRes
 
-        res += subRes + '\n'
+        res += subRes //+ '\n'
     })
-
-    res += `<@${messages.author.id}>`
 
     return res
 }
