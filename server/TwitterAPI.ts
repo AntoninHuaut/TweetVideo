@@ -15,7 +15,7 @@ export async function getTweetData(tweetId: string): Promise<TweetData | null> {
 
         return new TweetData(json)
     } catch (err) {
-        console.error(err)
+        // Ignore
         return null
     }
 }

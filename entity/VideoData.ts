@@ -4,6 +4,8 @@ export default class VideoData {
     readonly preview_media_url: string
     readonly twitter_url: string
     readonly mp4_url: string
+    readonly width: number
+    readonly height: number
 
     constructor(json: any) {
         if (json.type !== "video") throw new Error("Invalid type")
@@ -11,6 +13,8 @@ export default class VideoData {
         this.id = json.id
         this.preview_media_url = json.media_url_https
         this.twitter_url = json.url
+        this.width = json.sizes.large.w
+        this.height = json.sizes.large.h
 
         this.mp4_url = json.video_info.variants.reduce((a: any, b: any) => {
             if (!a.bitrate) return b

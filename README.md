@@ -1,1 +1,1 @@
-DiscordTweetVideo
+DiscordTweet
