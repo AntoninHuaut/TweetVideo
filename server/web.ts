@@ -15,7 +15,6 @@ export default async function launchWeb() {
 
     router.get('/:tweetId', async (ctx) => {
         const tweetId: (string | undefined) = ctx.params.tweetId
-        console.log(tweetId)
         if (!tweetId) {
             ctx.response.body = {error: "Invalid parameter: tweetId"}
             return
@@ -40,6 +39,6 @@ export default async function launchWeb() {
 
     app.use(router.routes())
 
-    console.log(`🌳 Oak server running at http://localhost:${config.web.port}/ 🌳`)
+    console.log(`[Oak] Server running at http://localhost:${config.web.port}/`)
     await app.listen({port: config.web.port})
 }
