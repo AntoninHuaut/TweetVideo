@@ -1,13 +1,30 @@
 import {config, Discord} from '../dps.ts'
 
-function buildMessage(messages: any, tweets: string[]): string {
+async function isValidURL(url: string): Promise<boolean> {
+    try {
+        const res = await (fetch(url).then(res => res.text()))
+        try {
+            JSON.parse(res)
+        } catch(ex) {
+            return true
+        }
+    } catch (ex) {}
+
+    return false
+}
+
+async function buildMessage(messages: any, tweets: string[]): Promise<string> {
     let res: string = ""
 
-    tweets.forEach(tweetId => {
-        if (!tweetId) return
+    for (const tweetId of tweets) {
+        if (!tweetId) continue
 
-        res += config.web.url + tweetId + '\n'
-    })
+        const url = config.web.url + tweetId
+        const isValid = await isValidURL(url)
+        if (isValid) {
+            res += url + '\n'
+        }
+    }
 
     return res
 }
@@ -47,7 +64,10 @@ export default function launchDiscord() {
                 const tweets: string[] = getTweets(message)
                 if (!tweets || tweets.length === 0) return
 
-                message.reply(buildMessage(message, tweets))
+                const resMsg: string = await buildMessage(message, tweets)
+                if (!resMsg) return
+
+                message.reply(resMsg)
             },
         },
     })
